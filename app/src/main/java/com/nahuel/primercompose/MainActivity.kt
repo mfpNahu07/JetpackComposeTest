@@ -2,11 +2,13 @@ package com.nahuel.primercompose
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -32,17 +34,17 @@ import com.nahuel.primercompose.ui.theme.PrimerComposeTheme
 
 data class Recipe(@DrawableRes val imageResource: Int, val title:String, val ingredients: List<String>)
 
-val recipeList = listOf(Recipe(R.drawable.imagen,"titulo", listOf("ingrediente1","ingrediente2","ingrediente3")),
-    Recipe(R.drawable.imagen,"titulo", listOf("ingrediente1a","ingrediente2a","ingrediente3a")),
-    Recipe(R.drawable.imagen,"titulo", listOf("ingrediente1b","ingrediente2b","ingrediente3b")),
-    Recipe(R.drawable.imagen,"titulo", listOf("ingrediente1c","ingrediente2c","ingrediente3c")),
-    Recipe(R.mipmap.ic_launcher,"titulo", listOf("ingrediente1d","ingrediente2d","ingrediente3d"))
+val recipeList = listOf(Recipe(R.drawable.imagen,"titulo1", listOf("ingrediente1","ingrediente2","ingrediente3")),
+    Recipe(R.drawable.imagen,"titulo2", listOf("ingrediente1a","ingrediente2a","ingrediente3a")),
+    Recipe(R.drawable.imagen,"titulo3", listOf("ingrediente1b","ingrediente2b","ingrediente3b")),
+    Recipe(R.drawable.imagen,"titulo4", listOf("ingrediente1c","ingrediente2c","ingrediente3c")),
+    Recipe(R.mipmap.ic_launcher,"titulo5", listOf("ingrediente1d","ingrediente2d","ingrediente3d"))
 )
 
 @Composable
-private fun RecipeCard(recipe:Recipe){
+private fun RecipeCard(recipe:Recipe, onRecipeClick:(Recipe) -> Unit){
     val image = painterResource(id = R.drawable.imagen)
-    Card(shape= RoundedCornerShape(8.dp), elevation = 8.dp, modifier = Modifier.padding(8.dp)){
+    Card(shape= RoundedCornerShape(8.dp), elevation = 8.dp, modifier = Modifier.padding(8.dp).clickable { onRecipeClick(recipe) }){
         Column(modifier = Modifier.padding(16.dp)) {
             val imageModifier = Modifier
                 .requiredHeight(150.dp)
@@ -62,7 +64,10 @@ private fun RecipeCard(recipe:Recipe){
 private fun RecipeColumnList(recipeList: List<Recipe>){
     LazyColumn{
         items(recipeList){ recipe ->
-            RecipeCard(recipe = recipe)
+            RecipeCard(recipe = recipe, onRecipeClick = {
+                Log.d("Recipe title ", it.title)
+                Log.d("Recipe ingredient 3 ", it.ingredients[2])
+            })
         }
     }
 }
@@ -86,8 +91,7 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 private fun PreviewNewsStory() {
-    RecipeCard(recipeList[3])
-
+    RecipeCard(recipeList[3], onRecipeClick = {})
 }*/
 
 
